@@ -1,0 +1,10 @@
+<label class="round-checkbox">
+  <input
+    class="round-checkbox__input"
+    type="checkbox"
+    [checked]="checked"
+    (change)="toggle()"
+  />
+  <div class="round-checkbox__checkbox" [class.checked]="checked"></div>
+  <span class="round-checkbox__label">{{ label }}</span>
+</label>

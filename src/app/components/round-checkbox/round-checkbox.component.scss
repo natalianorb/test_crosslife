@@ -1,0 +1,29 @@
+.round-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+
+  &__input {
+    display: none;
+  }
+
+  &__checkbox {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1.5px solid #808080;
+    display: inline-block;
+    &.checked {
+      --orange: rgba(218, 126, 60, 1);
+      background: url("/assets/icons/check-mark.svg") var(--orange) center
+        center no-repeat;
+      border-color: var(--orange);
+    }
+  }
+
+  &__label {
+    font-size: 14px;
+    color: #333;
+  }
+}
