@@ -1,33 +1,60 @@
 <div class="typeahead">
-  <mat-form-field class="typeahead__search">
-    <input
-      matInput
-      type="text"
-      placeholder="Поиск"
-      (input)="filterItems($event)"
-    />
-  </mat-form-field>
+  <div class="typeahead__header">
+    <button
+      mat-icon-button
+      type="reset"
+      (click)="cancelChanges()"
+      title="Отмена"
+      class="typeahead__cancel"
+    >
+      <app-backward-icon></app-backward-icon>
+    </button>
+    <span>{{ title }}</span>
+    <button mat-button (click)="confirmChanges()">Готово</button>
+  </div>
 
-  @if (items.length > 0) {
-    @if (isMultiple) {
-      <mat-selection-list
-        [multiple]="true"
-        (selectionChange)="onCheckboxChange($event.options[0])"
-      >
-        @for (item of filteredItems; track item.id) {
-          <mat-list-option [value]="item.id">{{ item.name }}</mat-list-option>
+  <div class="typeahead__body">
+    <mat-form-field class="typeahead__search">
+      <input
+        matNativeControl
+        type="text"
+        placeholder="Поиск"
+        [formControl]="searchControl"
+      />
+    </mat-form-field>
+
+    <div cdkScrollable class="typeahead__scroll-container">
+      @if (items.length > 0) {
+        @if (isMultiple) {
+          <mat-list>
+            @for (item of filteredItems(); track item.id) {
+              <mat-list-item>
+                <app-round-checkbox
+                  [checked]="item.selected"
+                  [label]="item.name"
+                  (checkedChange)="
+                    onCheckboxChange({ value: item.id, checked: $event })
+                  "
+                >
+                </app-round-checkbox>
+              </mat-list-item>
+            }
+          </mat-list>
+        } @else {
+          <mat-radio-group
+            (change)="onRadioChange($event.value)"
+            class="typeahead__radio-group"
+          >
+            @for (item of filteredItems(); track item.id) {
+              <mat-radio-button [value]="item.id" [checked]="item.selected">
+                {{ item.name }}
+              </mat-radio-button>
+            }
+          </mat-radio-group>
         }
-      </mat-selection-list>
-    } @else {
-      <mat-radio-group (change)="onRadioChange($event.value)" class="typeahead__radio-group">
-        @for (item of filteredItems; track item.id) {
-          <mat-radio-button [value]="item.id">
-            {{ item.name }}
-          </mat-radio-button>
-        }
-      </mat-radio-group>
-    }
-  } @else {
-    <div>Нет данных</div>
-  }
+      } @else {
+        <div>Нет данных</div>
+      }
+    </div>
+  </div>
 </div>

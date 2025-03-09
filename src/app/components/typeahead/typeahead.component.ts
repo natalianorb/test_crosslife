@@ -1,30 +1,73 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { MatListModule, MatListOption } from '@angular/material/list';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  signal,
+} from '@angular/core';
+import { MatListModule } from '@angular/material/list';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { Item } from '../../models/item';
+import { Item, SelectableItem } from '../../models/item';
 import { MatRadioModule } from '@angular/material/radio';
+import { computed } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { BackwardIconComponent } from "../backward-icon/backward-icon.component";
+import { RoundCheckboxComponent } from "../round-checkbox/round-checkbox.component";
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @Component({
   selector: 'app-typeahead',
-  imports: [MatListModule, MatFormFieldModule, MatInputModule, MatRadioModule],
+  imports: [
+    MatListModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatRadioModule,
+    ReactiveFormsModule,
+    MatButtonModule,
+    BackwardIconComponent,
+    RoundCheckboxComponent,
+    ScrollingModule,
+  ],
   templateUrl: './typeahead.component.html',
   styleUrl: './typeahead.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TypeaheadComponent {
+export class TypeaheadComponent implements OnInit, OnChanges {
+  searchControl = new FormControl('');
+  private searchTerm = signal('');
   @Input() items: Item[] = [];
   @Input() isMultiple = false;
   @Input() selectedItems: number[] = [];
   @Input() title = 'Выбрать из списка';
-
   @Output() selectionCancel = new EventEmitter<void>();
   @Output() selectionChange = new EventEmitter<number[]>();
 
-  filteredItems: Item[] = [];
-  workingSelectedValues: number[] = [];
+  filteredItems = computed(() => {
+    const term = this.searchTerm();
+    const allItems = this.items;
+
+    if (!term) return allItems.map(this.getSelectableItem);
+
+    return allItems
+      .filter((item) => item.name.toLowerCase().includes(term))
+      .map(this.getSelectableItem);
+  });
+
+  private workingSelectedValues: number[] = [];
+
+  ngOnInit() {
+    this.searchControl.valueChanges.subscribe((value) => {
+      const normalizedQuery = value?.trim().toLowerCase();
+      this.searchTerm.set(normalizedQuery ?? '');
+    });
+  }
 
   ngOnChanges() {
-    this.filteredItems = [...this.items];
     this.workingSelectedValues = [...this.selectedItems];
   }
 
@@ -36,16 +79,15 @@ export class TypeaheadComponent {
     this.selectionChange.emit(this.workingSelectedValues);
   }
 
-  onCheckboxChange(option: MatListOption) {
-    const { value, selected } = option;
-    this._updateWorkingSelectedValues({ checked: selected, value });
+  onCheckboxChange(option: { value: number; checked: boolean }) {
+    this.updateWorkingSelectedValues(option);
   }
 
   onRadioChange(value: number) {
-    this._updateWorkingSelectedValues({ checked: true, value });
+    this.updateWorkingSelectedValues({ checked: true, value });
   }
 
-  private _updateWorkingSelectedValues({
+  private updateWorkingSelectedValues({
     checked,
     value,
   }: {
@@ -66,22 +108,8 @@ export class TypeaheadComponent {
     }
   }
 
-  filterItems(event: Event | null) {
-    if (!event) {
-      return this._filter(undefined);
-    }
-    const inputElement = event.target as HTMLInputElement;
-    this._filter(inputElement.value);
-  }
-
-  private _filter(searchQuery: string | undefined) {
-    if (searchQuery === undefined || searchQuery.trim() === '') {
-      this.filteredItems = [...this.items];
-    } else {
-      const normalizedQuery = searchQuery.toLowerCase();
-      this.filteredItems = this.items.filter((item) =>
-        item.name.toLowerCase().includes(normalizedQuery),
-      );
-    }
-  }
+  private getSelectableItem = (item: Item): SelectableItem => ({
+    ...item,
+    selected: this.selectedItems.includes(item.id),
+  });
 }
