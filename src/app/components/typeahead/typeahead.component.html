@@ -1,0 +1,33 @@
+<div class="typeahead">
+  <mat-form-field class="typeahead__search">
+    <input
+      matInput
+      type="text"
+      placeholder="Поиск"
+      (input)="filterItems($event)"
+    />
+  </mat-form-field>
+
+  @if (items.length > 0) {
+    @if (isMultiple) {
+      <mat-selection-list
+        [multiple]="true"
+        (selectionChange)="onCheckboxChange($event.options[0])"
+      >
+        @for (item of filteredItems; track item.id) {
+          <mat-list-option [value]="item.id">{{ item.name }}</mat-list-option>
+        }
+      </mat-selection-list>
+    } @else {
+      <mat-radio-group (change)="onRadioChange($event.value)" class="typeahead__radio-group">
+        @for (item of filteredItems; track item.id) {
+          <mat-radio-button [value]="item.id">
+            {{ item.name }}
+          </mat-radio-button>
+        }
+      </mat-radio-group>
+    }
+  } @else {
+    <div>Нет данных</div>
+  }
+</div>

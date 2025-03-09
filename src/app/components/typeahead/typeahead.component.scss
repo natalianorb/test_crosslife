@@ -1,0 +1,9 @@
+.typeahead {
+  &__search {
+    width: 100%;
+  }
+  &__radio-group {
+    display: flex;
+    flex-direction: column;
+  }
+}
