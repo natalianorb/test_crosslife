@@ -20,11 +20,19 @@
   }
 
   &__search {
-    width: 100%;
+    padding: 6px 12px 6px 34px;
+    border-radius: 8px;
+    background: rgba(44, 44, 44, 1) url('/assets/icons/placeholder-label.svg') 12px center no-repeat;
   }
 
   &__search-input {
+    display: block;
     width: 100%;
+    height: 20px;
+    padding: 1px 0 0;
+    border: none;
+    background-color: transparent;
+    outline: none;
   }
 
   &__scroll-container {

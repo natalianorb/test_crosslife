@@ -1,4 +1,53 @@
 /* You can add global styles to this file, and also import other style files */
+@use "@angular/material" as mat;
+@import "@angular/cdk/overlay-prebuilt.css";
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
+  @include mat.theme(
+    (
+      color: mat.$orange-palette,
+      typography: Roboto,
+      density: 0,
+    )
+  );
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.mat-mdc-radio-button {
+  .mat-mdc-radio-touch-target,
+  .mdc-radio__native-control,
+  .mdc-radio__background:before {
+    width: 36px !important;
+    height: 36px !important;
+  }
+
+  .mdc-radio,
+  .mdc-radio__background {
+    width: 16px !important;
+    height: 16px !important;
+  }
+
+  .mdc-radio__outer-circle {
+    border-width: 1px !important;
+  }
+
+  .mdc-radio__inner-circle {
+    top: -4px !important;
+    left: -4px !important;
+    border-width: 12px !important;
+  }
+}

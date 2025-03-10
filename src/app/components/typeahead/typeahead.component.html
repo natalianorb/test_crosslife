@@ -14,14 +14,14 @@
   </div>
 
   <div class="typeahead__body">
-    <mat-form-field class="typeahead__search">
+    <div class="typeahead__search">
       <input
-        matNativeControl
         type="text"
         placeholder="Поиск"
         [formControl]="searchControl"
+        class="typeahead__search-input"
       />
-    </mat-form-field>
+    </div>
 
     <div cdkScrollable class="typeahead__scroll-container">
       @if (items.length > 0) {
