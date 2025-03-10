@@ -23,6 +23,7 @@ import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-typeahead',
+  standalone: true,
   imports: [
     MatListModule,
     MatFormFieldModule,

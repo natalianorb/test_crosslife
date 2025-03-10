@@ -5,6 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-backward-icon',
+  standalone: true,
   imports: [MatIconModule],
   templateUrl: './backward-icon.component.html',
   styleUrl: './backward-icon.component.scss',

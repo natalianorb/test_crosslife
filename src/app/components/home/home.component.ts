@@ -19,6 +19,7 @@ import { regionsListValidator } from '../../helpers/regions-list.validator';
 
 @Component({
   selector: 'app-home',
+  standalone: true,
   imports: [ReactiveFormsModule, MatButtonModule, MatChipsModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
