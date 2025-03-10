@@ -33,6 +33,9 @@
     border: none;
     background-color: transparent;
     outline: none;
+    &[ng-reflect-is-disabled="true"] {
+      pointer-events: none;
+    }
   }
 
   &__scroll-container {
@@ -43,5 +46,9 @@
   &__radio-group {
     display: flex;
     flex-direction: column;
+  }
+
+  &__no-data {
+    padding-top: 16px;
   }
 }
