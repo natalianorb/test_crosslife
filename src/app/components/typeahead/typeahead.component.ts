@@ -40,7 +40,6 @@ import { MatDividerModule } from '@angular/material/divider';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TypeaheadComponent implements OnInit, OnChanges {
-  searchControl = new FormControl('');
   private searchTerm = signal('');
   @Input() items: Item[] = [];
   @Input() isMultiple = false;
@@ -48,7 +47,10 @@ export class TypeaheadComponent implements OnInit, OnChanges {
   @Input() title = 'Выбрать из списка';
   @Output() selectionCancel = new EventEmitter<void>();
   @Output() selectionChange = new EventEmitter<number[]>();
-
+  searchControl = new FormControl({
+    value: '',
+    disabled: this.items.length === 0,
+  });
   filteredItems = computed(() => {
     const term = this.searchTerm();
     const allItems = this.items;
