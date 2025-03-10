@@ -1,0 +1,40 @@
+<div class="home">
+  <div class="home__top">
+    <div class="home__title">Добавить отчет</div>
+
+    <div class="home__form-field">
+      <div class="home__form-label">*Выберите не менее двух регионов</div>
+      <div (click)="openOverlay(true)" class="home__trigger">
+        @if (!selectedRegions().length) {
+          <button type="button" class="home__button">Выбрать</button>
+        } @else {
+          <mat-chip-listbox>
+            @for (regionId of selectedRegions(); track regionId) {
+              <mat-basic-chip-option>{{ getRegionName(regionId) }}</mat-basic-chip-option>
+            }
+          </mat-chip-listbox>
+        }
+      </div>
+    </div>
+
+    <div class="home__form-field">
+      <div class="home__form-label">*Выберите один регион из списка</div>
+      <div (click)="openOverlay(false)" class="home__trigger">
+        @if (!selectedRegion()) {
+          <button type="button" class="home__button">Выбрать</button>
+        } @else {
+          <mat-chip-set>
+           <mat-basic-chip>{{ getRegionName(selectedRegion()!) }}</mat-basic-chip>
+          </mat-chip-set>
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="home__bottom">
+    <div class="home__text">Нужно заполнить поля, отмеченные *</div>
+    <button [disabled]="isDisabled()" type="button" class="home__button">
+      Добавить отчет
+    </button>
+  </div>
+</div>

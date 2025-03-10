@@ -1,0 +1,61 @@
+.home {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0 16px 12px;
+  text-align: center;
+
+  &__title {
+    padding-top: 10px;
+  }
+
+  &__form-field {
+    padding-top: 24px;
+  }
+
+  &__form-label {
+    text-align: left;
+    font-size: 17px;
+  }
+
+  &__trigger {
+    margin-top: 4px;
+  }
+
+  &__button {
+    width: 100%;
+    padding: 0;
+    margin: 12px 0 0;
+    border: none;
+    border-radius: 10px;
+    background-color: rgba(218, 126, 60, 1);
+    font: 200 15px/46px 'SF Pro Display';
+
+
+    @media screen and (min-width: 768px) {
+      max-width: 343px;
+    }
+
+    &:disabled {
+      background-color: rgba(75, 75, 75, 1);
+    }
+  }
+
+  &__text {
+    font-weight: 200;
+  }
+}
+
+mat-basic-chip-option,
+mat-basic-chip {
+  margin: 8px 0 0 8px;
+  padding: 0 8px;
+  background-color: rgba(44, 44, 44, 1);
+  border-radius: 13px;
+  height: 26px;
+  line-height: 16px;
+  .mdc-evolution-chip__text-label {
+    font-size: 13px;
+  }
+}

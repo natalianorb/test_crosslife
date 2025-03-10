@@ -19,6 +19,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { BackwardIconComponent } from "../backward-icon/backward-icon.component";
 import { RoundCheckboxComponent } from "../round-checkbox/round-checkbox.component";
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-typeahead',
@@ -32,6 +33,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     BackwardIconComponent,
     RoundCheckboxComponent,
     ScrollingModule,
+    MatDividerModule,
   ],
   templateUrl: './typeahead.component.html',
   styleUrl: './typeahead.component.scss',

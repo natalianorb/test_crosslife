@@ -10,7 +10,9 @@
       <app-backward-icon></app-backward-icon>
     </button>
     <span>{{ title }}</span>
-    <button mat-button (click)="confirmChanges()">Готово</button>
+    <button mat-button (click)="confirmChanges()" class="typeahead__ready">
+      Готово
+    </button>
   </div>
 
   <div class="typeahead__body">
@@ -29,6 +31,9 @@
         @if (isMultiple) {
           <mat-list>
             @for (item of filteredItems(); track item.id) {
+              @if (!$first) {
+                <mat-divider></mat-divider>
+              }
               <mat-list-item>
                 <app-round-checkbox
                   [checked]="item.selected"

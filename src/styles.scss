@@ -1,9 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 @use "@angular/material" as mat;
 @import "@angular/cdk/overlay-prebuilt.css";
+@import "./assets/styles/font-faces.css";
 
 * {
   box-sizing: border-box;
+  font: 300 15px "SF Pro Display";
 }
 
 html {
@@ -15,6 +17,7 @@ html {
       density: 0,
     )
   );
+  --mat-divider-width: 0.5px;
 }
 
 html,
@@ -24,7 +27,6 @@ body {
 
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
 .mat-mdc-radio-button {
@@ -50,4 +52,8 @@ body {
     left: -4px !important;
     border-width: 12px !important;
   }
+}
+
+.mat-mdc-icon-button svg {
+  width: 12px !important;
 }
