@@ -4,7 +4,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   ComponentRef,
-  computed,
   inject,
   OnDestroy,
   OnInit,
@@ -15,10 +14,12 @@ import { RegionsService } from '../../services/regions.service';
 import { TypeaheadComponent } from '../typeahead/typeahead.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatButtonModule } from '@angular/material/button';
+import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { regionsListValidator } from '../../helpers/regions-list.validator';
 
 @Component({
   selector: 'app-home',
-  imports: [MatButtonModule, MatChipsModule],
+  imports: [ReactiveFormsModule, MatButtonModule, MatChipsModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -44,9 +45,18 @@ export class HomeComponent implements OnInit, OnDestroy {
     height: '98vh',
   });
   private overlayRef = this.overlay.create(this.overlayConfig);
-  isDisabled = computed(() => {
-    return !this.selectedRegion() || this.selectedRegions().length < 2;
+  form = new FormGroup({
+    firstInput: new FormControl<number[]>([], regionsListValidator),
+    secondInput: new FormControl<number | null>(null, Validators.required),
   });
+
+  get firstInput() {
+    return this.form.get('firstInput')!;
+  }
+
+  get secondInput() {
+    return this.form.get('secondInput')!;
+  }
 
   ngOnInit() {
     this.regionService.getRegions().subscribe((regions) => {
@@ -86,9 +96,16 @@ export class HomeComponent implements OnInit, OnDestroy {
   private setSelectedRegions(isMultiple: boolean, data: number[]) {
     if (isMultiple) {
       this.selectedRegions.set(data);
+      this.firstInput.setValue(data);
+      this.firstInput.markAsTouched();
     } else {
       this.selectedRegion.set(data[0]);
+      this.secondInput.setValue(data[0]);
     }
+  }
+
+  onSubmit() {
+    console.log(this.form.value);
   }
 
   getRegionName(regionId: number) {

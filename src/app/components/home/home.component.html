@@ -1,4 +1,4 @@
-<div class="home">
+<form [formGroup]="form" class="home" (ngSubmit)="onSubmit()">
   <div class="home__top">
     <div class="home__title">Добавить отчет</div>
 
@@ -15,6 +15,9 @@
           </mat-chip-listbox>
         }
       </div>
+      <!-- @if (firstInput.touched && firstInput.hasError('tooShort')) {
+        <div class="home__form-error">Выберите 2 или более значения</div>
+      } -->
     </div>
 
     <div class="home__form-field">
@@ -32,9 +35,11 @@
   </div>
 
   <div class="home__bottom">
-    <div class="home__text">Нужно заполнить поля, отмеченные *</div>
-    <button [disabled]="isDisabled()" type="button" class="home__button">
+    @if (!form.valid) {
+      <div class="home__text">Нужно заполнить поля, отмеченные *</div>
+    }
+    <button [disabled]="!form.valid" type="submit" class="home__button">
       Добавить отчет
     </button>
   </div>
-</div>
+</form>
