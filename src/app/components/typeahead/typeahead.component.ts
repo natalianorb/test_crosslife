@@ -3,7 +3,6 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnChanges,
   OnInit,
   Output,
   signal,
@@ -16,8 +15,8 @@ import { MatRadioModule } from '@angular/material/radio';
 import { computed } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { BackwardIconComponent } from "../backward-icon/backward-icon.component";
-import { RoundCheckboxComponent } from "../round-checkbox/round-checkbox.component";
+import { BackwardIconComponent } from '../backward-icon/backward-icon.component';
+import { RoundCheckboxComponent } from '../round-checkbox/round-checkbox.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatDividerModule } from '@angular/material/divider';
 
@@ -40,7 +39,7 @@ import { MatDividerModule } from '@angular/material/divider';
   styleUrl: './typeahead.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TypeaheadComponent implements OnInit, OnChanges {
+export class TypeaheadComponent implements OnInit {
   private searchTerm = signal('');
   @Input() items: Item[] = [];
   @Input() isMultiple = false;
@@ -66,14 +65,11 @@ export class TypeaheadComponent implements OnInit, OnChanges {
   private workingSelectedValues: number[] = [];
 
   ngOnInit() {
+    this.workingSelectedValues = [...this.selectedItems];
     this.searchControl.valueChanges.subscribe((value) => {
       const normalizedQuery = value?.trim().toLowerCase();
       this.searchTerm.set(normalizedQuery ?? '');
     });
-  }
-
-  ngOnChanges() {
-    this.workingSelectedValues = [...this.selectedItems];
   }
 
   cancelChanges() {
